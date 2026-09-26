@@ -89,6 +89,7 @@ struct CueParser {
     unsigned currentTrack;
     uint32_t currentSectorNumber;
     uint32_t cutting;
+    int trackStartsFile;
     int implicitIndex;
     int isTrackANewFile;
     uint32_t currentPregap;
