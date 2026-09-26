@@ -136,6 +136,7 @@ void CueParser_construct(struct CueParser* parser, struct CueDisc* disc) {
     parser->currentTrack = 0;
     parser->currentSectorNumber = 0;
     parser->cutting = 0;
+    parser->trackStartsFile = 0;
     parser->isTrackANewFile = 0;
     disc->catalog[0] = 0;
     disc->isrc[0] = 0;
@@ -485,9 +486,15 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     return;
                 }
                 struct CueTrack* track = &parser->disc->tracks[parser->currentTrack];
-                if (parser->implicitIndex || (track->indexCount == 0)) {
+                /* Only the first INDEX of a FILE can cut its leading sectors;
+                   later tracks in the same FILE count from that cut. */
+                if (parser->trackStartsFile && (parser->implicitIndex || (track->indexCount == 0))) {
+                    if ((uint64_t)sectorNumber * 2352 > parser->currentFileSize) {
+                        end_parse(parser, scheduler, "cuesheet INDEX past the end of its FILE");
+                        return;
+                    }
                     parser->cutting = sectorNumber;
-                    parser->currentFileSize -= sectorNumber * 2352;
+                    parser->currentFileSize -= (uint64_t)sectorNumber * 2352;
                 }
                 track->indices[track->indexCount] = parser->currentSectorNumber + sectorNumber - parser->cutting;
                 if (parser->implicitIndex) {
@@ -606,6 +613,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     track->preEmphasis = 0;
                     track->serialCopyManagementSystem = 0;
                     parser->currentPregap = 0;
+                    parser->trackStartsFile = parser->isTrackANewFile;
                     if (parser->isTrackANewFile) {
                         parser->currentSectorNumber += (parser->previousFileSize + 2351) / 2352;
                         parser->isTrackANewFile = 0;
