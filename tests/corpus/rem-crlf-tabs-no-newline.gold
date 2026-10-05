@@ -1,0 +1,12 @@
+tracks 2
+track 01 DATA file "Game (Track 1).bin" refs 1
+  fileOffset 0 size 1000 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 1000
+track 02 AUDIO file "Game (Track 2).bin" refs 1
+  fileOffset 1000 size 600 postgap 0 indexCount 1
+  index 00 1000 00:13:25
+  index 01 1150 00:15:25
+  redux start 00:17:25 pregap 150 byteOffset 352800 length 600
+exit 0

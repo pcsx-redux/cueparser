@@ -1,0 +1,127 @@
+tracks 25
+track 01 DATA file "test.bin" refs 1
+  fileOffset 0 size 315000 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 315000
+track 02 AUDIO file "test-t2.bin" refs 1
+  fileOffset 315000 size 375 postgap 0 indexCount 1
+  index 00 315000 70:00:00
+  index 01 315000 70:00:00
+  redux start 70:02:00 pregap 0 byteOffset 0 length 375
+track 03 AUDIO file "test-t3.bin" refs 1
+  fileOffset 315375 size 390 postgap 0 indexCount 1
+  index 00 315375 70:05:00
+  index 01 315375 70:05:00
+  redux start 70:07:00 pregap 0 byteOffset 0 length 390
+track 04 AUDIO file "test-t4.bin" refs 1
+  fileOffset 315765 size 390 postgap 0 indexCount 1
+  index 00 315765 70:10:15
+  index 01 315915 70:12:15
+  redux start 70:14:15 pregap 150 byteOffset 352800 length 390
+track 05 AUDIO file "test-t5.bin" refs 1
+  fileOffset 316155 size 390 postgap 0 indexCount 1
+  index 00 316155 70:15:30
+  index 01 316350 70:18:00
+  redux start 70:20:00 pregap 195 byteOffset 458640 length 390
+track 06 AUDIO file "test-t6.bin" refs 1
+  fileOffset 316545 size 390 postgap 0 indexCount 1
+  index 00 316545 70:20:45
+  index 01 316695 70:22:45
+  redux start 70:24:45 pregap 150 byteOffset 352800 length 390
+track 07 AUDIO file "test-t7.bin" refs 1
+  fileOffset 316785 size 240 postgap 0 indexCount 1
+  index 00 316935 70:25:60
+  index 01 316935 70:25:60
+  redux start 70:27:60 pregap 0 byteOffset 352800 length 240
+track 08 AUDIO file "test-t8.bin" refs 1
+  fileOffset 317025 size 240 postgap 0 indexCount 1
+  index 00 317175 70:29:00
+  index 01 317175 70:29:00
+  redux start 70:31:00 pregap 0 byteOffset 352800 length 240
+track 09 AUDIO file "test-t9.bin" refs 1
+  fileOffset 317265 size 240 postgap 0 indexCount 1
+  index 00 317415 70:32:15
+  index 01 317415 70:32:15
+  redux start 70:34:15 pregap 0 byteOffset 352800 length 240
+track 10 AUDIO file "test-t10.bin" refs 1
+  fileOffset 317505 size 240 postgap 0 indexCount 1
+  index 00 317655 70:35:30
+  index 01 317655 70:35:30
+  redux start 70:37:30 pregap 0 byteOffset 352800 length 240
+track 11 AUDIO file "test-t11.bin" refs 1
+  fileOffset 317745 size 240 postgap 0 indexCount 1
+  index 00 317895 70:38:45
+  index 01 317895 70:38:45
+  redux start 70:40:45 pregap 0 byteOffset 352800 length 240
+track 12 AUDIO file "test-t12.bin" refs 1
+  fileOffset 317985 size 240 postgap 0 indexCount 1
+  index 00 318135 70:41:60
+  index 01 318135 70:41:60
+  redux start 70:43:60 pregap 0 byteOffset 352800 length 240
+track 13 AUDIO file "test-t13.bin" refs 1
+  fileOffset 318225 size 240 postgap 0 indexCount 1
+  index 00 318375 70:45:00
+  index 01 318375 70:45:00
+  redux start 70:47:00 pregap 0 byteOffset 352800 length 240
+track 14 AUDIO file "test-t14.bin" refs 1
+  fileOffset 318465 size 240 postgap 0 indexCount 1
+  index 00 318615 70:48:15
+  index 01 318615 70:48:15
+  redux start 70:50:15 pregap 0 byteOffset 352800 length 240
+track 15 AUDIO file "test-t15.bin" refs 1
+  fileOffset 318705 size 240 postgap 0 indexCount 1
+  index 00 318855 70:51:30
+  index 01 318855 70:51:30
+  redux start 70:53:30 pregap 0 byteOffset 352800 length 240
+track 16 AUDIO file "test-t16.bin" refs 1
+  fileOffset 318945 size 240 postgap 0 indexCount 1
+  index 00 319095 70:54:45
+  index 01 319095 70:54:45
+  redux start 70:56:45 pregap 0 byteOffset 352800 length 240
+track 17 AUDIO file "test-t17.bin" refs 1
+  fileOffset 319185 size 240 postgap 0 indexCount 1
+  index 00 319335 70:57:60
+  index 01 319335 70:57:60
+  redux start 70:59:60 pregap 0 byteOffset 352800 length 240
+track 18 AUDIO file "test-t18.bin" refs 1
+  fileOffset 319425 size 240 postgap 0 indexCount 1
+  index 00 319575 71:01:00
+  index 01 319575 71:01:00
+  redux start 71:03:00 pregap 0 byteOffset 352800 length 240
+track 19 AUDIO file "test-t19.bin" refs 1
+  fileOffset 319665 size 240 postgap 0 indexCount 1
+  index 00 319815 71:04:15
+  index 01 319815 71:04:15
+  redux start 71:06:15 pregap 0 byteOffset 352800 length 240
+track 20 AUDIO file "test-t20.bin" refs 1
+  fileOffset 319905 size 240 postgap 0 indexCount 1
+  index 00 320055 71:07:30
+  index 01 320055 71:07:30
+  redux start 71:09:30 pregap 0 byteOffset 352800 length 240
+track 21 AUDIO file "test-t21.bin" refs 1
+  fileOffset 320145 size 240 postgap 0 indexCount 1
+  index 00 320295 71:10:45
+  index 01 320295 71:10:45
+  redux start 71:12:45 pregap 0 byteOffset 352800 length 240
+track 22 AUDIO file "test-t22.bin" refs 1
+  fileOffset 320385 size 240 postgap 0 indexCount 1
+  index 00 320535 71:13:60
+  index 01 320535 71:13:60
+  redux start 71:15:60 pregap 0 byteOffset 352800 length 240
+track 23 AUDIO file "test-t23.bin" refs 1
+  fileOffset 320625 size 240 postgap 0 indexCount 1
+  index 00 320775 71:17:00
+  index 01 320775 71:17:00
+  redux start 71:19:00 pregap 0 byteOffset 352800 length 240
+track 24 AUDIO file "test-t24.bin" refs 1
+  fileOffset 320865 size 240 postgap 0 indexCount 1
+  index 00 321015 71:20:15
+  index 01 321015 71:20:15
+  redux start 71:22:15 pregap 0 byteOffset 352800 length 240
+track 25 AUDIO file "test-t25.bin" refs 1
+  fileOffset 321105 size 240 postgap 0 indexCount 1
+  index 00 321255 71:23:30
+  index 01 321255 71:23:30
+  redux start 71:25:30 pregap 0 byteOffset 352800 length 240
+exit 0

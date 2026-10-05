@@ -1,0 +1,2 @@
+error cuesheet references a file that can't be found
+exit 0

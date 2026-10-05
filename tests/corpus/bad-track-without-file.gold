@@ -1,0 +1,2 @@
+error cuesheet TRACK without a FILE first
+exit 0

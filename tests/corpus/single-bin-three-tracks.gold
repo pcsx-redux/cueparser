@@ -1,0 +1,17 @@
+tracks 3
+track 01 DATA file "one.bin" refs 3
+  fileOffset 0 size 1500 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 1500
+track 02 AUDIO file "one.bin" refs 3
+  fileOffset 0 size 1500 postgap 0 indexCount 1
+  index 00 1500 00:20:00
+  index 01 1650 00:22:00
+  redux start 00:24:00 pregap 150 byteOffset 3880800 length 1500
+track 03 AUDIO file "one.bin" refs 3
+  fileOffset 0 size 1000 postgap 0 indexCount 1
+  index 00 3000 00:40:00
+  index 01 3000 00:40:00
+  redux start 00:42:00 pregap 0 byteOffset 7056000 length 1000
+exit 0
