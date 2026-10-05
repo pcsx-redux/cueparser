@@ -1,0 +1,43 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gold:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cc: [ gcc, clang ]
+    steps:
+      - uses: actions/checkout@v4
+      - run: make -C tests check CC=${{ matrix.cc }}
+
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: fuzz-corpus
+          key: fuzz-corpus-
+          restore-keys: fuzz-corpus-
+      - run: make -C tests fuzz
+      - name: Fuzz for 60 seconds
+        # Leak detection is off until #6 is fixed; the gold corpus still catches that one.
+        env:
+          ASAN_OPTIONS: detect_leaks=0
+        run: |
+          mkdir -p fuzz-corpus artifacts
+          tests/build/fuzz -max_total_time=60 -detect_leaks=0 -artifact_prefix=artifacts/ fuzz-corpus tests/corpus
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: fuzz-artifacts
+          path: artifacts

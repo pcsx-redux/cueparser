@@ -1,0 +1,22 @@
+tracks 4
+track 01 DATA file "a.bin" refs 1
+  fileOffset 0 size 750 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 750
+track 02 AUDIO file "b.bin" refs 1
+  fileOffset 675 size 375 postgap 0 indexCount 1
+  index 00 750 00:10:00
+  index 01 900 00:12:00
+  redux start 00:14:00 pregap 150 byteOffset 529200 length 375
+track 03 AUDIO file "c.bin" refs 2
+  fileOffset 975 size 600 postgap 0 indexCount 1
+  index 00 1125 00:15:00
+  index 01 1125 00:15:00
+  redux start 00:17:00 pregap 0 byteOffset 352800 length 600
+track 04 AUDIO file "c.bin" refs 2
+  fileOffset 975 size 750 postgap 0 indexCount 1
+  index 00 1725 00:23:00
+  index 01 1875 00:25:00
+  redux start 00:27:00 pregap 150 byteOffset 2116800 length 750
+exit 0

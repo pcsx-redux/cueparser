@@ -1,0 +1,5 @@
+CD_ROM_XA
+
+TRACK MODE2_RAW
+NO COPY
+DATAFILE "game.bin" 47:21:12 // length in bytes: 501058368

@@ -1,0 +1,12 @@
+tracks 2
+track 01 DATA file "odd.bin" refs 1
+  fileOffset 0 size 101 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 101
+track 02 AUDIO file "odd2.bin" refs 1
+  fileOffset 101 size 1 postgap 0 indexCount 1
+  index 00 101 00:01:26
+  index 01 101 00:01:26
+  redux start 00:03:26 pregap 0 byteOffset 0 length 1
+exit 0

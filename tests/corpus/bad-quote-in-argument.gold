@@ -1,0 +1,2 @@
+error cuesheet quote imbalance (got a quote in the middle of an argument)
+exit 0
