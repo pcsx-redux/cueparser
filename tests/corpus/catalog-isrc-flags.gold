@@ -1,2 +1,16 @@
-error cuesheet FLAGS argument unknown
+tracks 2
+catalog 0123456789012
+isrc USRC17607839
+track 01 AUDIO file "disc.bin" refs 2
+  flags DCP 4CH PRE SCMS
+  fileOffset 0 size 750 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 750
+track 02 AUDIO file "disc.bin" refs 2
+  flags PRE
+  fileOffset 0 size 750 postgap 0 indexCount 1
+  index 00 750 00:10:00
+  index 01 750 00:10:00
+  redux start 00:12:00 pregap 0 byteOffset 1764000 length 750
 exit 0

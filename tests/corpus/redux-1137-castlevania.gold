@@ -1,2 +1,14 @@
-error cuesheet FLAGS argument unknown
+tracks 2
+track 01 DATA file "Castlevania.bin" refs 2
+  flags DCP
+  fileOffset 0 size 229020 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 229020
+track 02 AUDIO file "Castlevania.bin" refs 2
+  flags DCP
+  fileOffset 150 size 3226 postgap 0 indexCount 1
+  index 00 229020 50:53:45
+  index 01 229170 50:55:45
+  redux start 50:57:45 pregap 150 byteOffset 538655040 length 3226
 exit 0

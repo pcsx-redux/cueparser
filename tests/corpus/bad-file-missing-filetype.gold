@@ -1,0 +1,2 @@
+error cuesheet FILE missing its filetype argument
+exit 0
