@@ -1,9 +1,2 @@
-tracks 2
-track 01 DATA file "a.bin" refs 2
-  fileOffset 0 size 2779096485 postgap 0 indexCount 1
-  index 00 0 00:00:00
-  index 01 0 00:00:00
-  redux start 00:02:00 pregap 0 byteOffset 0 length 2779096485
-track 02 AUDIO file "a.bin" refs 2
-  fileOffset 0 size 1515871811 postgap 0 indexCount -1
+error cuesheet TRACK doesn't have enough indices
 exit 0

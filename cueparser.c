@@ -271,6 +271,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
         int len = word_len(parser->word);
         if (needs_argument(parser)) end_word(parser->word);
         new_keyword(parser);
+    dispatch:
         switch (parser->state) {
             case CUE_PARSER_START:
                 switch (keyword) {
@@ -293,9 +294,17 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                         parser->state = CUE_PARSER_FILE_FILENAME;
                         break;
                     case KW_FLAGS:
+                        if (parser->currentTrack == 0) {
+                            end_parse(parser, scheduler, "cuesheet FLAGS before any TRACK");
+                            return;
+                        }
                         parser->state = CUE_PARSER_FLAGS;
                         break;
                     case KW_INDEX:
+                        if (parser->currentTrack == 0) {
+                            end_parse(parser, scheduler, "cuesheet INDEX before any TRACK");
+                            return;
+                        }
                         parser->state = CUE_PARSER_INDEX_NUMBER;
                         break;
                     case KW_ISRC:
@@ -318,7 +327,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                         parser->state = CUE_PARSER_SONGWRITER;
                         break;
                     case KW_TITLE:
-                        parser->state = CUE_PARSER_SONGWRITER;
+                        parser->state = CUE_PARSER_TITLE;
                         break;
                     case KW_TRACK:
                         parser->state = CUE_PARSER_TRACK_NUMBER;
@@ -350,9 +359,6 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     end_parse(parser, scheduler, "cuesheet FILE missing its filename argument");
                     return;
                 } else {
-                    struct CueFile* binaryFile = malloc(sizeof(struct CueFile));
-                    assert(binaryFile);
-                    binaryFile->user = file;
                     if (parser->isTrackANewFile) {
                         end_parse(parser, scheduler, "cuesheet has too many FILE without TRACK");
                         return;
@@ -365,6 +371,9 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                         parser->currentFile->references--;
                         parser->currentFile = NULL;
                     }
+                    struct CueFile* binaryFile = malloc(sizeof(struct CueFile));
+                    assert(binaryFile);
+                    binaryFile->user = file;
                     if (!parser->open(binaryFile, scheduler, parser->word)) {
                         binaryFile->destroy(binaryFile);
                         free(binaryFile);
@@ -522,8 +531,6 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     return;
                 }
                 parser->state = CUE_PARSER_START;
-                end_parse(parser, scheduler, "cuesheet PERFORMER argument not supported at the moment");
-                return;
                 break;
             case CUE_PARSER_POSTGAP:
                 if (keyword == KW_EMPTY) {
@@ -562,8 +569,6 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     return;
                 }
                 parser->state = CUE_PARSER_START;
-                end_parse(parser, scheduler, "cuesheet SONGWRITER argument not supported at the moment");
-                return;
                 break;
             case CUE_PARSER_TITLE:
                 if (keyword == KW_EMPTY) {
@@ -571,8 +576,6 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     return;
                 }
                 parser->state = CUE_PARSER_START;
-                end_parse(parser, scheduler, "cuesheet TITLE argument not supported at the moment");
-                return;
                 break;
             case CUE_PARSER_TRACK_NUMBER:
                 if (keyword == KW_EMPTY) {
@@ -672,13 +675,20 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                 end_parse(parser, scheduler, "cuesheet parser internal error");
                 return;
         }
+        /* A line that ends before the state machine is back to START is missing arguments: hand the
+           state an empty word, which ends FLAGS and makes the others report what is missing. */
+        if (isEOL && (parser->state != CUE_PARSER_START)) {
+            keyword = KW_EMPTY;
+            len = 0;
+            goto dispatch;
+        }
     }
     parser->amount = 0;
     schedule_read(parser, file, scheduler);
 }
 
 static void parse_eof(struct CueParser* parser, struct CueFile* file, struct CueScheduler* scheduler) {
-    if (parser->state != CUE_PARSER_START) {
+    if ((parser->state != CUE_PARSER_START) || (parser->keyword != KW_EMPTY)) {
         parser->amount = 1;
         parser->start = "\n";
         parse(parser, file, scheduler);
@@ -696,7 +706,7 @@ static void parse_eof(struct CueParser* parser, struct CueFile* file, struct Cue
         end_parse(parser, scheduler, "cuesheet has no track");
         return;
     }
-    for (unsigned i = 1; i < parser->disc->trackCount; i++) {
+    for (unsigned i = 1; i <= parser->disc->trackCount; i++) {
         struct CueTrack* track = &parser->disc->tracks[i];
         if (track->indexCount < 1) {
             end_parse(parser, scheduler, "cuesheet TRACK doesn't have enough indices");

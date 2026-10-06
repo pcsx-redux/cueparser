@@ -21,19 +21,14 @@ jobs:
           restore-keys: fuzz-corpus-
       - run: make -C tests fuzz
       - name: Fuzz for 20 minutes
-        # Leak detection is off until #6 is fixed; the gold corpus still catches that one.
-        env:
-          ASAN_OPTIONS: detect_leaks=0
         run: |
           mkdir -p fuzz-corpus artifacts
-          tests/build/fuzz -max_total_time=1200 -detect_leaks=0 -artifact_prefix=artifacts/ fuzz-corpus tests/corpus
+          tests/build/fuzz -max_total_time=1200 -artifact_prefix=artifacts/ fuzz-corpus tests/corpus
       - name: Minimize the corpus
         if: always()
-        env:
-          ASAN_OPTIONS: detect_leaks=0
         run: |
           mkdir fuzz-corpus-min
-          tests/build/fuzz -merge=1 -detect_leaks=0 fuzz-corpus-min fuzz-corpus tests/corpus
+          tests/build/fuzz -merge=1 fuzz-corpus-min fuzz-corpus tests/corpus
           rm -rf fuzz-corpus
           mv fuzz-corpus-min fuzz-corpus
       - uses: actions/cache/save@v4

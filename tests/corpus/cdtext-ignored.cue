@@ -1,0 +1,13 @@
+REM GENRE Game
+PERFORMER "Somebody"
+TITLE "Some Game"
+SONGWRITER "Someone"
+FILE "a.bin" BINARY
+  TRACK 01 MODE2/2352
+    TITLE "Data"
+    PERFORMER "Somebody"
+    INDEX 01 00:00:00
+  TRACK 02 AUDIO
+    TITLE "Song"
+    SONGWRITER "Someone Else"
+    INDEX 01 00:10:00

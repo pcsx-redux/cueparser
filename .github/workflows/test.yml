@@ -30,12 +30,9 @@ jobs:
           restore-keys: fuzz-corpus-
       - run: make -C tests fuzz
       - name: Fuzz for 60 seconds
-        # Leak detection is off until #6 is fixed; the gold corpus still catches that one.
-        env:
-          ASAN_OPTIONS: detect_leaks=0
         run: |
           mkdir -p fuzz-corpus artifacts
-          tests/build/fuzz -max_total_time=60 -detect_leaks=0 -artifact_prefix=artifacts/ fuzz-corpus tests/corpus
+          tests/build/fuzz -max_total_time=60 -artifact_prefix=artifacts/ fuzz-corpus tests/corpus
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
