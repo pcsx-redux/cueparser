@@ -688,7 +688,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
 }
 
 static void parse_eof(struct CueParser* parser, struct CueFile* file, struct CueScheduler* scheduler) {
-    if (parser->state != CUE_PARSER_START) {
+    if ((parser->state != CUE_PARSER_START) || (parser->keyword != KW_EMPTY)) {
         parser->amount = 1;
         parser->start = "\n";
         parse(parser, file, scheduler);
