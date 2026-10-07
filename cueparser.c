@@ -509,11 +509,11 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                 if (parser->implicitIndex) {
                     track->indices[0] = track->indices[1];
                     track->indices[1] += parser->currentPregap;
-                    track->fileOffset = track->indices[1] - sectorNumber;
+                    track->fileOffset = (int32_t)track->indices[1] - sectorNumber;
                     parser->currentSectorNumber += parser->currentPregap;
                     parser->implicitIndex = 0;
                 } else if (track->indexCount == 0) {
-                    track->fileOffset = track->indices[0] - sectorNumber;
+                    track->fileOffset = (int32_t)track->indices[0] - sectorNumber;
                 }
                 parser->state = CUE_PARSER_START;
             } break;
