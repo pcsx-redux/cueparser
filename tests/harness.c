@@ -154,7 +154,7 @@ static void dump_disc(FILE* out, struct CueDisc* disc) {
                     track->fourChannelAudio ? " 4CH" : "", track->preEmphasis ? " PRE" : "",
                     track->serialCopyManagementSystem ? " SCMS" : "");
         }
-        fprintf(out, "  fileOffset %u size %u postgap %u indexCount %d\n", track->fileOffset, track->size,
+        fprintf(out, "  fileOffset %d size %u postgap %u indexCount %d\n", track->fileOffset, track->size,
                 track->postgap, track->indexCount);
         for (int j = 0; j <= track->indexCount && j < MAXINDEX; j++) {
             fprintf(out, "  index %02d %u ", j, track->indices[j]);
