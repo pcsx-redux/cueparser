@@ -47,7 +47,8 @@ enum CueTrackType { TRACK_TYPE_UNKNOWN, TRACK_TYPE_AUDIO, TRACK_TYPE_DATA };
 struct CueTrack {
     struct CueFile* file;
     uint32_t size;        // size of the track in sectors, including pregaps and postgaps
-    uint32_t fileOffset;  // offset in sectors within the disc at which this file begins
+    int32_t fileOffset;   // offset in sectors within the disc at which this file begins; negative
+                          // when the file's first INDEX cuts sectors from its start
     int indexCount;
     uint32_t indices[MAXINDEX];  // each index is an absolute value in sectors from the beginning
                                  // of the disc; adjust using fileOffset

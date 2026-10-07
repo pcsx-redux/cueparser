@@ -187,6 +187,17 @@ static int needs_argument(struct CueParser* parser) {
 static void schedule_read(struct CueParser* parser, struct CueFile* file, struct CueScheduler* scheduler);
 static void size_cb(struct CueFile* file, struct CueScheduler* scheduler, uint64_t size);
 
+/* Bounds the disc so every absolute index, after adding a timecode and up to MAXTRACK pregaps of
+   at most 100 minutes each, still fits the int32_t fileOffset is computed in. */
+#define MAXSECTORS 0x40000000
+
+static int advance_sectors(struct CueParser* parser, uint64_t fileSize) {
+    uint64_t sectors = (uint64_t)parser->currentSectorNumber + fileSize / 2352 + (fileSize % 2352 != 0);
+    if (sectors >= MAXSECTORS) return 0;
+    parser->currentSectorNumber = sectors;
+    return 1;
+}
+
 static int32_t timecodeToSectorNumber(char* timecode) {
     char* endptr;
     int min = strtol(timecode, &endptr, 10);
@@ -509,11 +520,11 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                 if (parser->implicitIndex) {
                     track->indices[0] = track->indices[1];
                     track->indices[1] += parser->currentPregap;
-                    track->fileOffset = track->indices[1] - sectorNumber;
+                    track->fileOffset = (int32_t)track->indices[1] - sectorNumber;
                     parser->currentSectorNumber += parser->currentPregap;
                     parser->implicitIndex = 0;
                 } else if (track->indexCount == 0) {
-                    track->fileOffset = track->indices[0] - sectorNumber;
+                    track->fileOffset = (int32_t)track->indices[0] - sectorNumber;
                 }
                 parser->state = CUE_PARSER_START;
             } break;
@@ -618,7 +629,10 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     parser->currentPregap = 0;
                     parser->trackStartsFile = parser->isTrackANewFile;
                     if (parser->isTrackANewFile) {
-                        parser->currentSectorNumber += (parser->previousFileSize + 2351) / 2352;
+                        if (!advance_sectors(parser, parser->previousFileSize)) {
+                            end_parse(parser, scheduler, "cuesheet disc is too large");
+                            return;
+                        }
                         parser->isTrackANewFile = 0;
                         track->fileOffset = parser->currentSectorNumber;
                     } else {
@@ -718,7 +732,10 @@ static void parse_eof(struct CueParser* parser, struct CueFile* file, struct Cue
         struct CueTrack* track = &parser->disc->tracks[i];
         prevTrack->size = track->indices[0] - prevTrack->indices[0];
     }
-    parser->currentSectorNumber += (parser->currentFileSize + 2351) / 2352;
+    if (!advance_sectors(parser, parser->currentFileSize)) {
+        end_parse(parser, scheduler, "cuesheet disc is too large");
+        return;
+    }
     struct CueTrack* track = &parser->disc->tracks[parser->disc->trackCount];
     track->size = parser->currentSectorNumber - track->indices[0];
     end_parse(parser, scheduler, NULL);
