@@ -362,8 +362,6 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     return;
                 }
                 parser->state = CUE_PARSER_START;
-                end_parse(parser, scheduler, "cuesheet CDTEXTFILE not supported at the moment");
-                return;
                 break;
             case CUE_PARSER_FILE_FILENAME:
                 if (keyword == KW_EMPTY) {

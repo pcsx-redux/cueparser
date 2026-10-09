@@ -1,0 +1,2 @@
+error cuesheet CDTEXTFILE missing its filename argument
+exit 0
