@@ -231,7 +231,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
         int isEOW = isspace(c);
         int isEOL = (c == '\r') || (c == '\n');
         int isSpace = isEOW && !isEOL;
-        if (!isEOW) keyword_add_char(parser, c);
+        if (!isEOW) keyword_add_char(parser, toupper((unsigned char)c));
         if (parser->inQuotes) {
             if (c == '"') {
                 parser->inQuotes = 0;
