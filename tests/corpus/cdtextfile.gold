@@ -1,0 +1,8 @@
+tracks 1
+catalog 0000000000000
+track 01 DATA file "a.bin" refs 1
+  fileOffset 0 size 1000 postgap 0 indexCount 1
+  index 00 0 00:00:00
+  index 01 0 00:00:00
+  redux start 00:02:00 pregap 0 byteOffset 0 length 1000
+exit 0
