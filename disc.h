@@ -46,7 +46,7 @@ enum CueTrackType { TRACK_TYPE_UNKNOWN, TRACK_TYPE_AUDIO, TRACK_TYPE_DATA };
 
 struct CueTrack {
     struct CueFile* file;
-    uint32_t size;        // size of the track in sectors, including pregaps and postgaps
+    uint32_t size;        // size of the track in sectors, including its pregap but not its postgap
     int32_t fileOffset;   // offset in sectors within the disc at which this file begins; negative
                           // when the file's first INDEX cuts sectors from its start
     int indexCount;
@@ -55,7 +55,7 @@ struct CueTrack {
                                  // index 0 is for the pregap, and shouldn't be considered
                                  // physically present within the data files
                                  // the lead-in isn't taken into account
-    uint32_t postgap;            // size of the postgap in sectors
+    uint32_t postgap;            // size of the postgap in sectors, not in size or in any file
     enum CueTrackType trackType;
     int compressed;
     int digitalCopyPermitted;
