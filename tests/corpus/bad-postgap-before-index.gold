@@ -1,0 +1,2 @@
+error cuesheet POSTGAP before an INDEX
+exit 0

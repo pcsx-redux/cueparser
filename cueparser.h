@@ -91,6 +91,7 @@ struct CueParser {
     uint32_t cutting;
     int trackStartsFile;
     int implicitIndex;
+    int trackHasPostgap;
     int isTrackANewFile;
     uint32_t currentPregap;
 };

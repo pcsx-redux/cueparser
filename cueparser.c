@@ -137,6 +137,7 @@ void CueParser_construct(struct CueParser* parser, struct CueDisc* disc) {
     parser->currentSectorNumber = 0;
     parser->cutting = 0;
     parser->trackStartsFile = 0;
+    parser->trackHasPostgap = 0;
     parser->isTrackANewFile = 0;
     disc->catalog[0] = 0;
     disc->isrc[0] = 0;
@@ -482,6 +483,10 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     end_parse(parser, scheduler, "cuesheet INDEX number invalid");
                     return;
                 }
+                if (parser->trackHasPostgap) {
+                    end_parse(parser, scheduler, "cuesheet INDEX after a POSTGAP");
+                    return;
+                }
                 struct CueTrack* track = &parser->disc->tracks[parser->currentTrack];
                 if ((track->indexCount == -1) & (indexNum == 1)) {
                     parser->implicitIndex = 1;
@@ -541,15 +546,33 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                 }
                 parser->state = CUE_PARSER_START;
                 break;
-            case CUE_PARSER_POSTGAP:
+            case CUE_PARSER_POSTGAP: {
                 if (keyword == KW_EMPTY) {
                     end_parse(parser, scheduler, "cuesheet POSTGAP missing its argument");
                     return;
                 }
+                if (parser->currentTrack == 0) {
+                    end_parse(parser, scheduler, "cuesheet POSTGAP before any TRACK");
+                    return;
+                }
+                struct CueTrack* track = &parser->disc->tracks[parser->currentTrack];
+                if (track->indexCount == -1) {
+                    end_parse(parser, scheduler, "cuesheet POSTGAP before an INDEX");
+                    return;
+                }
+                if (parser->trackHasPostgap) {
+                    end_parse(parser, scheduler, "cuesheet has too many POSTGAP");
+                    return;
+                }
+                int32_t postgapLength = timecodeToSectorNumber(parser->word);
+                if (postgapLength < 0) {
+                    end_parse(parser, scheduler, "cuesheet POSTGAP length invalid");
+                    return;
+                }
+                track->postgap = postgapLength;
+                parser->trackHasPostgap = 1;
                 parser->state = CUE_PARSER_START;
-                end_parse(parser, scheduler, "cuesheet POSTGAP argument not supported at the moment");
-                return;
-                break;
+            } break;
             case CUE_PARSER_PREGAP: {
                 if (keyword == KW_EMPTY) {
                     end_parse(parser, scheduler, "cuesheet PREGAP missing its argument");
@@ -625,6 +648,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     track->preEmphasis = 0;
                     track->serialCopyManagementSystem = 0;
                     parser->currentPregap = 0;
+                    parser->trackHasPostgap = 0;
                     parser->trackStartsFile = parser->isTrackANewFile;
                     if (parser->isTrackANewFile) {
                         if (!advance_sectors(parser, parser->previousFileSize)) {
