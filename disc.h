@@ -62,13 +62,14 @@ struct CueTrack {
     int fourChannelAudio;
     int preEmphasis;
     int serialCopyManagementSystem;
+    char isrc[13];  // ISRC of this track, empty if the cuesheet gives none
 };
 
 struct CueDisc {
     int trackCount;
     struct CueTrack tracks[MAXTRACK];  // track 0 isn't valid; technically can be considered the lead-in
     char catalog[14];
-    char isrc[13];
+    char isrc[13];  // an ISRC given before any TRACK; per-track ISRCs live in the tracks
 };
 
 #ifdef __cplusplus

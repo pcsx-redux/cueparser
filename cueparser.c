@@ -320,7 +320,8 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                         parser->state = CUE_PARSER_INDEX_NUMBER;
                         break;
                     case KW_ISRC:
-                        if (parser->disc->isrc[0]) {
+                        if ((parser->currentTrack ? parser->disc->tracks[parser->currentTrack].isrc
+                                                  : parser->disc->isrc)[0]) {
                             end_parse(parser, scheduler, "cuesheet has too many ISRC arguments");
                             return;
                         }
@@ -536,7 +537,8 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     end_parse(parser, scheduler, "cuesheet ISRC doesn't have 12 characters");
                     return;
                 }
-                memcpy(parser->disc->isrc, parser->word, 13);
+                memcpy(parser->currentTrack ? parser->disc->tracks[parser->currentTrack].isrc : parser->disc->isrc,
+                       parser->word, 13);
                 parser->state = CUE_PARSER_START;
                 break;
             case CUE_PARSER_PERFORMER:
@@ -647,6 +649,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     track->fourChannelAudio = 0;
                     track->preEmphasis = 0;
                     track->serialCopyManagementSystem = 0;
+                    track->isrc[0] = 0;
                     parser->currentPregap = 0;
                     parser->trackHasPostgap = 0;
                     parser->trackStartsFile = parser->isTrackANewFile;
