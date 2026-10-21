@@ -148,6 +148,7 @@ static void dump_disc(FILE* out, struct CueDisc* disc) {
         fprintf(out, "track %02d %s%s file \"%s\" refs %d\n", i, track_type(track->trackType),
                 track->compressed ? " compressed" : "", hf ? hf->name : "(null)",
                 track->file ? track->file->references : 0);
+        if (track->isrc[0]) fprintf(out, "  isrc %s\n", track->isrc);
         if (track->digitalCopyPermitted || track->fourChannelAudio || track->preEmphasis ||
             track->serialCopyManagementSystem) {
             fprintf(out, "  flags%s%s%s%s\n", track->digitalCopyPermitted ? " DCP" : "",
