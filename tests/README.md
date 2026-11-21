@@ -20,4 +20,6 @@ Where the sheets come from:
   the issue only says it is about 500 MB.
 - `single-bin-three-tracks`: one bin cut into three tracks, which #1 broke and fixed.
 - `index00-cut`: tracks whose first INDEX is past the start of their FILE (#1 and #3).
+- `pregap-or-index00`: two audio tracks laid out the same way in their FILE, one with an INDEX 00
+  pregap and one with a PREGAP; only `pregap` tells them apart.
 - The rest are written for the case they're named after; `bad-*` are malformed.

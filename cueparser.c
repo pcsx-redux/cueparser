@@ -524,6 +524,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                 if (parser->implicitIndex) {
                     track->indices[0] = track->indices[1];
                     track->indices[1] += parser->currentPregap;
+                    track->pregap = parser->currentPregap;
                     track->fileOffset = (int32_t)track->indices[1] - sectorNumber;
                     parser->currentSectorNumber += parser->currentPregap;
                     parser->implicitIndex = 0;
@@ -641,6 +642,7 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     track->file->references++;
                     track->fileOffset = 0;
                     track->indexCount = -1;
+                    track->pregap = 0;
                     track->postgap = 0;
                     track->size = 0;
                     track->trackType = TRACK_TYPE_UNKNOWN;
