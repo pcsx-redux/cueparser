@@ -529,7 +529,10 @@ static void parse(struct CueParser* parser, struct CueFile* file, struct CueSche
                     parser->currentSectorNumber += parser->currentPregap;
                     parser->implicitIndex = 0;
                 } else if (track->indexCount == 0) {
-                    track->fileOffset = (int32_t)track->indices[0] - sectorNumber;
+                    /* A PREGAP's silence isn't in the FILE, and comes before its INDEX 00 pregap. */
+                    track->pregap = parser->currentPregap;
+                    track->fileOffset = (int32_t)(track->indices[0] + parser->currentPregap) - sectorNumber;
+                    parser->currentSectorNumber += parser->currentPregap;
                 }
                 parser->state = CUE_PARSER_START;
             } break;
