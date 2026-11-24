@@ -53,7 +53,8 @@ struct CueTrack {
     uint32_t indices[MAXINDEX];  // each index is an absolute value in sectors from the beginning
                                  // of the disc; adjust using fileOffset
                                  // index 0 is for the pregap, which is in the file
-                                 // unless it comes from a PREGAP directive
+                                 // unless it comes from a PREGAP directive; with both,
+                                 // the PREGAP comes first and index 0 is where it starts
                                  // the lead-in isn't taken into account
     uint32_t pregap;             // size of a PREGAP directive in sectors, between indices 0 and 1;
                                  // in size, but not in any file

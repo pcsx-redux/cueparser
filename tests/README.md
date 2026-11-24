@@ -22,4 +22,6 @@ Where the sheets come from:
 - `index00-cut`: tracks whose first INDEX is past the start of their FILE (#1 and #3).
 - `pregap-or-index00`: two audio tracks laid out the same way in their FILE, one with an INDEX 00
   pregap and one with a PREGAP; only `pregap` tells them apart.
+- `pregap-and-index00`: a track with both a PREGAP and an INDEX 00; the PREGAP's silence comes
+  first, so index 0 is where it starts and INDEX 01 and later tracks move by its length.
 - The rest are written for the case they're named after; `bad-*` are malformed.
